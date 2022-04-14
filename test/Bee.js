@@ -4,11 +4,11 @@ const { ethers } = require("hardhat");
 
 describe('BEE (ERC-20)', () => {
   let deployer;
-  let BeeToken;
+  let Bee;
   beforeEach(async () => {
     [deployer] = await ethers.getSigners();
-    const Bee = await ethers.getContractFactory('Bee');
-    BeeToken = await Bee.deploy('Bee', 'BEE');
+    const bee = await ethers.getContractFactory('Bee');
+    Bee = await bee.deploy('Bee', 'BEE');
   });
 
 
@@ -16,7 +16,7 @@ describe('BEE (ERC-20)', () => {
 
     it('should mint 21,000,000 BEE tokens to deployer', async () => {
       const amount = ethers.utils.parseEther('21000000');
-      const deployerBalance = await BeeToken.balanceOf(deployer['address']);
+      const deployerBalance = await Bee.balanceOf(deployer['address']);
       expect(amount).to.equal(deployerBalance);
     });
 

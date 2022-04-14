@@ -2,36 +2,31 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "hardhat/console.sol";
 
 contract Honeycomb {
 
 	uint public rewardRemaining;
 	uint public stakingPool;
 	uint public immutable epoch;
-	uint public immutable deployTime;
+	uint public deployTime;
 	uint public reward01;
 	uint public reward02;
 	uint public reward03;
 	uint public members;
 	mapping (address => uint) amountStaked;
 	address public immutable admin;
-	IERC20 poolToken;
+	IERC20 public poolToken;
+    bool rewardLocked;
 
 
 	/**
 	 * @param _timeInterval - amount of time in seconds used for reward calculation
 	 */
-	constructor(uint _timeInterval, address _poolToken, uint _totalReward) {
+	constructor(uint _timeInterval, address _poolToken) {
 		admin = msg.sender;
 		epoch = _timeInterval;
-		deployTime = block.timestamp;
 		poolToken = IERC20(_poolToken);
-		poolToken.approve(address(this), _totalReward);
-		poolToken.transferFrom(msg.sender, address(this), _totalReward);
-		rewardRemaining = _totalReward;
-		reward01 = rewardRemaining * uint(2) / uint(10);
-		reward02 = rewardRemaining * uint(3) / uint(10);
-		reward03 = rewardRemaining * uint(5) / uint(10);
 	}
 
 	modifier onlyAdmin {
@@ -49,13 +44,34 @@ contract Honeycomb {
 	}
 
 
+    /**
+     * @dev function for admin to lock-in rewards after contract has been deployed
+     * - users cannot deposit till rewards have been locked-in
+     * - requires ERC-20 token approval of reward
+     * - cannot lock-in rewards in constructor() because approve() has to be called first
+     * - can only be called successfully ONCE
+     * @param _reward amount of ERC-20 tokens to be given out as rewards
+     */
+    function lockReward(uint _reward) onlyAdmin external {
+        require(poolToken.allowance(msg.sender, address(this)) >= _reward, "Honeycomb: insufficient erc-20 allowance!");
+        require(!rewardLocked, "Honeycomb: reward can only be locked-in once!");
+        deployTime = block.timestamp; // initialize deploytime only when admin has locked in reward
+        poolToken.transferFrom(msg.sender, address(this), _reward);
+		rewardRemaining += _reward;
+		reward01 = rewardRemaining * uint(2) / uint(10);
+		reward02 = rewardRemaining * uint(3) / uint(10);
+		reward03 = rewardRemaining * uint(5) / uint(10);
+        rewardLocked = true;
+    }
+
+
 	/**
 	 * @dev function for address to add to the staking pool (lock in their investment for at least)
 	 * @param _amount number of tokens to add to pool
 	 */
 	function stake(uint _amount) external {
 		require(block.timestamp < deployTime + epoch, "Honeycomb: staking epoch has elapsed!");
-		require(poolToken.allowance(msg.sender, address(this)) >= _amount, "Honeycomb: insufficient balance!");
+		require(poolToken.allowance(msg.sender, address(this)) >= _amount, "Honeycomb: insufficient erc-20 allowance!");
 
 		poolToken.transferFrom(msg.sender, address(this), _amount);
 		amountStaked[msg.sender] += _amount;
