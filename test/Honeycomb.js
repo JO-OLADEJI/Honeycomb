@@ -1,6 +1,14 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
+/*
+ * TERMS USED
+ * - epoch: refers to the timespan elapsed for time period constant T, e.g first epoch means the time between contract deployment and T (t0 - T)
+ * - reward: the amount of ERC-20 tokens deposited by contract owner to be given out proportionally to stakers
+ * - Bee: the ERC-20 token used for testing
+ * - Honeycomb: the smart contract that acts as a bank / yield farm
+*/
+
 
 describe('Honeycomb', () => {
   let deployer;
@@ -291,7 +299,36 @@ describe('Honeycomb', () => {
 
 
   describe('Helper functions', () => {
-    //
+    beforeEach(async () => {
+      await Bee.approve(Honeycomb['address'], reward);
+      await Honeycomb.lockReward(reward);
+    });
+
+
+    it('should return the timestamp in which the third epoch starts', async () => {
+      // Third epoch refers to the timespan between t0+2T to t0+3T
+      const thirdEpochStart = await Honeycomb.thirdEpochStart();
+      const deployTime = await Honeycomb.deployTime();
+      const difference = thirdEpochStart.sub(deployTime);
+      expect(difference).to.equal(epoch * 2);
+    });
+
+    it('should return the timestamp in which the forth epoch starts', async () => {
+      // Fourth epoch refers to the timespan between t0+3T to t0+4T
+      const fourthEpochStart = await Honeycomb.fourthEpochStart();
+      const deployTime = await Honeycomb.deployTime();
+      const difference = fourthEpochStart.sub(deployTime);
+      expect(difference).to.equal(epoch * 3);
+    });
+
+    it('should return the timestamp in which the fifth epoch starts', async () => {
+      // Fifth epoch refers to anytime after 4T
+      const fifthEpochStart = await Honeycomb.fifthEpochStart();
+      const deployTime = await Honeycomb.deployTime();
+      const difference = fifthEpochStart.sub(deployTime);
+      expect(difference).to.equal(epoch * 4);
+    });
+
   });
 
 });
