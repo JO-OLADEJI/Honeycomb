@@ -8,7 +8,7 @@ describe('Honeycomb', () => {
   let addr2;
   let Bee; // ERC-20 token
   let Honeycomb;
-  const epoch = 15 * 60; // 15 seconds (testing)
+  const epoch = 15; // 15 seconds (testing)
   const reward = ethers.utils.parseEther('100');
 
   const init = async () => {
@@ -98,7 +98,55 @@ describe('Honeycomb', () => {
 
 
   describe('Staking', () => {
-    //
+    const addr1Stake = ethers.utils.parseEther('100');
+    const addr2Stake = ethers.utils.parseEther('400');
+    beforeEach(async () => {
+      await Bee.transfer(addr1['address'], addr1Stake);
+      await Bee.transfer(addr2['address'], addr2Stake);
+    });
+
+
+    it('should stake the amount of ERC-2O tokens an address specifies if sent within the first epoch', async () => {
+      await Bee.approve(Honeycomb['address'], reward);
+      await Honeycomb.lockReward(reward);
+      await Bee.connect(addr1).approve(Honeycomb['address'], addr1Stake);
+      await Honeycomb.connect(addr1).stake(addr1Stake);
+
+      expect(await Bee.balanceOf(Honeycomb['address'])).to.equal(reward.add(addr1Stake));
+      expect(await Bee.balanceOf(addr1['address'])).to.equal(addr1Stake.sub(addr1Stake));
+      expect(await Honeycomb.amountStaked(addr1['address'])).to.equal(addr1Stake);
+      expect(await Honeycomb.stakingPool()).to.equal(addr1Stake);
+    });
+
+    it('should revert when the contract does not have allowance on the amount the address specifies', async () => {
+      await Bee.approve(Honeycomb['address'], reward);
+      await Honeycomb.lockReward(reward);
+
+      await expect(
+        Honeycomb.connect(addr1).stake(addr1Stake)
+      ).to.be.revertedWith('Honeycomb: insufficient erc-20 allowance!');
+    });
+
+    it('should revert when stake() is called after one epoch from rewards', async () => {
+      await Bee.approve(Honeycomb['address'], reward);
+      await Honeycomb.lockReward(reward);
+      await Bee.connect(addr1).approve(Honeycomb['address'], addr1Stake);
+      await delay(epoch);
+
+      await expect(
+        Honeycomb.connect(addr1).stake(addr1Stake)
+      ).to.be.revertedWith('Honeycomb: staking epoch has elapsed!');
+    });
+
+    it('should revert if stake() is called before reward is locked-in by deployer', async () => {
+      await Bee.connect(addr1).approve(Honeycomb['address'], addr1Stake);
+      await delay(epoch);
+
+      await expect(
+        Honeycomb.connect(addr1).stake(addr1Stake)
+      ).to.be.revertedWith('Honeycomb: reward not locked-in!');
+    });
+
   });
 
 

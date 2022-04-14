@@ -1,7 +1,7 @@
 {
-  "name": "cinco-fases",
+  "name": "honeycomb",
   "version": "1.0.0",
-  "description": "Pool for users to stake an ERC-20 token and receive a share of the total reward pool in due time",
+  "description": "Pool for users to stake an ERC-20 token and receive a share of the total pool reward after (n) epochs",
   "main": "index.js",
   "scripts": {
     "test": "npx hardhat test",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Joshua-Oladeji/Cinco-fases.git"
+    "url": "git+https://github.com/Joshua-Oladeji/Honeycomb.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Joshua-Oladeji/Cinco-fases/issues"
+    "url": "https://github.com/Joshua-Oladeji/Honeycomb/issues"
   },
-  "homepage": "https://github.com/Joshua-Oladeji/Cinco-fases#readme",
+  "homepage": "https://github.com/Joshua-Oladeji/Honeycomb#readme",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
     "@nomiclabs/hardhat-waffle": "^2.0.0",

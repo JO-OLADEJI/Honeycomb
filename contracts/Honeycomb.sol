@@ -13,8 +13,7 @@ contract Honeycomb {
 	uint public reward01;
 	uint public reward02;
 	uint public reward03;
-	uint public members;
-	mapping (address => uint) amountStaked;
+	mapping (address => uint) public amountStaked;
 	address public immutable admin;
 	IERC20 public poolToken;
     bool rewardLocked;
@@ -70,13 +69,13 @@ contract Honeycomb {
 	 * @param _amount number of tokens to add to pool
 	 */
 	function stake(uint _amount) external {
+        require(rewardLocked, "Honeycomb: reward not locked-in!");
 		require(block.timestamp < deployTime + epoch, "Honeycomb: staking epoch has elapsed!");
 		require(poolToken.allowance(msg.sender, address(this)) >= _amount, "Honeycomb: insufficient erc-20 allowance!");
 
 		poolToken.transferFrom(msg.sender, address(this), _amount);
 		amountStaked[msg.sender] += _amount;
 		stakingPool += _amount;
-		members++;
 	}
 
 
@@ -107,7 +106,6 @@ contract Honeycomb {
 		stakingPool -= amountStaked[msg.sender];
 		rewardRemaining -= reward;
 		delete amountStaked[msg.sender];
-		members--;
 	}
 
 
@@ -116,7 +114,7 @@ contract Honeycomb {
 	 */
 	function withdraw() external {
 		require(block.timestamp >= fifthEpochStart(), "Honeycomb: rewards locked-in till 5th epochs!");
-		require(members == 0 && stakingPool == 0, "Honeycomb: liquidity provider(s) present!");
+		require(stakingPool == 0, "Honeycomb: liquidity available in pool!");
 		poolToken.transferFrom(address(this), msg.sender, rewardRemaining);
 	}
 
