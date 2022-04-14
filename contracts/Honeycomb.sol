@@ -34,15 +34,6 @@ contract Honeycomb {
 	}
 
 
-	/**
-	 * @dev function for address to approve the spending of ERC-20 tokens by contract
-	 * @param _amount number of tokens to approve
-	 */
-	function permit(uint _amount) external {
-		poolToken.approve(address(this), _amount);
-	}
-
-
     /**
      * @dev function for admin to lock-in rewards after contract has been deployed
      * - users cannot deposit till rewards have been locked-in
@@ -83,23 +74,31 @@ contract Honeycomb {
 	 * @dev function for users to withdraw their stake and accrued profit
 	 */
 	function harvest() external {
-		require(block.timestamp >= thirdEpochStart(), "Honeycomb: liquidity locked-in for first 2 epochs!");
 		require(amountStaked[msg.sender] > 0, "Honeycomb: no liquidity share in pool!");
+		require(block.timestamp >= thirdEpochStart(), "Honeycomb: liquidity locked-in for first 2 epochs!");
 		uint reward;
 
 		if (block.timestamp >= fifthEpochStart()) {
-			reward = (reward03 + reward02 + reward01) * uint(amountStaked[msg.sender]) / uint(stakingPool);
-			poolToken.transferFrom(address(this), msg.sender, reward + amountStaked[msg.sender]);
-			reward03 -= reward;
+            uint rewardFromReward01 = reward01 * uint(amountStaked[msg.sender]) / uint(stakingPool);
+			uint rewardFromReward02 = reward02 * uint(amountStaked[msg.sender]) / uint(stakingPool);
+			uint rewardFromReward03 = reward03 * uint(amountStaked[msg.sender]) / uint(stakingPool);
+            reward = rewardFromReward01 + rewardFromReward02 + rewardFromReward03;
+			poolToken.transfer(msg.sender, reward + amountStaked[msg.sender]);
+            reward01 -= rewardFromReward01;
+            reward02 -= rewardFromReward02;
+			reward03 -= rewardFromReward03;
 		}
 		else if (block.timestamp >= fourthEpochStart()) {
-			reward = (reward02 + reward01) * uint(amountStaked[msg.sender]) / uint(stakingPool);
-			poolToken.transferFrom(address(this), msg.sender, reward + amountStaked[msg.sender]);
-			reward02 -= reward;
+			uint rewardFromReward01 = reward01 * uint(amountStaked[msg.sender]) / uint(stakingPool);
+			uint rewardFromReward02 = reward02 * uint(amountStaked[msg.sender]) / uint(stakingPool);
+            reward = rewardFromReward01 + rewardFromReward02;
+			poolToken.transfer(msg.sender, reward + amountStaked[msg.sender]);
+            reward01 -= rewardFromReward01;
+            reward02 -= rewardFromReward02;
 		}
 		else if (block.timestamp >= thirdEpochStart()) {
 			reward = reward01 * uint(amountStaked[msg.sender]) / uint(stakingPool);
-			poolToken.transferFrom(address(this), msg.sender, reward + amountStaked[msg.sender]);
+			poolToken.transfer(msg.sender, reward + amountStaked[msg.sender]);
 			reward01 -= reward;
 		}
 
@@ -115,7 +114,7 @@ contract Honeycomb {
 	function withdraw() external {
 		require(block.timestamp >= fifthEpochStart(), "Honeycomb: rewards locked-in till 5th epochs!");
 		require(stakingPool == 0, "Honeycomb: liquidity available in pool!");
-		poolToken.transferFrom(address(this), msg.sender, rewardRemaining);
+		poolToken.transfer(msg.sender, rewardRemaining);
 	}
 
 
@@ -147,22 +146,6 @@ contract Honeycomb {
 	 */
 	function fifthEpochStart() public view returns(uint) {
 		return deployTime + (4 * epoch);
-	}
-
-
-	/**
-	 * @dev returns the current stake of a given address
-	 */
-	function getAmountStaked(address _account) external view returns(uint) {
-		return amountStaked[_account];
-	}
-
-
-	/**
-	 * @dev returns the allowance of the contract on the sender's tokens
-	 */
-	function getPermit() external view returns(uint) {
-		return poolToken.allowance(msg.sender, address(this));
 	}
 
 }
