@@ -3,9 +3,9 @@
   "name": "Honeycomb farm",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "comb-icon.png",
+      "sizes": "50x50 25x25",
+      "type": "image/png"
     }
   ],
   "start_url": ".",

@@ -1,0 +1,74 @@
+.nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 1rem 7vw;
+  /* border: 1px solid red; */
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.logo img {
+  width: 5rem;
+}
+
+.logo h1 {
+  font-family: 'Satisfy', cursive;
+  font-weight: bold;
+  margin-left: .4rem;
+}
+
+.sections {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  /* border: 1px solid black; */
+  background-color: #b6b6b6;
+  padding: .4rem;
+  font-family: 'Fredoka', sans-serif;
+  border-radius: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wrapper a {
+  display: inline-block;
+  padding: .5rem 1.2rem;
+  margin: 0 .1rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.selected {
+  background-color: #7a7a7a;
+  border-radius: .8rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.buttons button {
+  font-family: 'Fredoka', sans-serif;
+  padding: .6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: transparent;
+  border-radius: 1rem;
+  border: 2px solid #464646;
+  cursor: pointer;
+}
+
+.wallet-icon {
+  font-size: .85rem;
+  margin-left: .3rem;
+}
