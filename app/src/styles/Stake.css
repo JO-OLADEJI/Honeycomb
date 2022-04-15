@@ -1,0 +1,126 @@
+.stake {
+  margin: auto;
+  width: 50rem;
+  height: 25rem;
+  padding: 1rem 1.5rem;
+  border-radius: 2rem;
+  background-color: #ebc98b;
+  font-family: 'Fredoka', sans-serif;
+  position: relative;
+}
+
+.stake > h3 {
+  text-align: left;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #432929;
+}
+
+.form {
+  width: fit-content;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+
+.pseudo-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: .3rem 1rem;
+  font-size: .85rem;
+  color: #432929;
+}
+
+.balance {
+  font-weight: 600;
+}
+
+.form-wrapper {
+  border: 1px solid #C6872A;
+  border-radius: .8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .7rem;
+  background-color: #ffecca;
+}
+
+.form input {
+  font-size: 1.5rem;
+  font-family: inherit;
+  width: 11rem;
+  border: none;
+  background: transparent;
+  margin-right: .5rem;
+  border: 1px solid transparent;
+  border-radius: .5rem;
+  transition: border .3s ease-out;
+}
+
+.form input:hover {
+  border: 1px solid #c6882a36;
+}
+
+.form input:focus {
+  outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}
+
+.form button {
+  cursor: pointer;
+  padding: .3rem .4rem;
+  border: none;
+  background-color: #C68728;
+  color: #432929;
+  font-family: inherit;
+  font-weight: 500;
+  border-radius: .7rem;
+  font-size: .9rem;
+}
+
+.divider {
+  border-left: 1px solid #C6872A;
+  height: 2rem;
+  margin: 0 .5rem;
+}
+
+.token {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-weight: 500;
+  color: #432929;
+}
+
+.token img {
+  border-radius: 50%;
+  width: 1.5rem;
+  margin-right: .5rem;
+}
+
+.stake-buttons {
+  position: absolute;
+  bottom: 1rem;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.stake-buttons button {
+  background-color: #C68728;
+  color: #432929;
+  width: 21.8rem;
+  padding: 1.2rem 0;
+  border-radius: 1rem;
+  font-family: 'Fredoka', sans-serif;
+  border: 3px solid #432929;
+  border-top: 2px solid #432929;
+  border-bottom: 6px solid #432929;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+}

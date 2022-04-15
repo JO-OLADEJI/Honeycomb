@@ -14,6 +14,7 @@ const App = () => {
         <Route path="/stake" element={<Stake />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
+      <p className="add-to-wallet">Add ATRAC to Wallet</p>
     </div>
   );
 }

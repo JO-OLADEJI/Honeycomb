@@ -1,0 +1,18 @@
+.timer {
+  color: #432929;
+}
+
+.count-down {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.info-icon {
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.seperator {
+  margin: 0 .25rem;
+}
