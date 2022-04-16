@@ -3,8 +3,9 @@ import '../styles/Stake.css';
 import Timer from './Timer.jsx';
 import atrac from '../assets/atrac.png';
 
-const Stake = ({ connected }) => {
-  const [action, setAction] = useState('connect wallet');
+const Stake = ({ network, address, connect }) => {
+  const actions = ['Stake', 'Approve ATRAC', 'Connect Wallet'];
+  const [action, setAction] = useState(actions[0]);
   const [erc20Bal, setErc20Bal] = useState(0.272964);
 
   return (
@@ -23,7 +24,7 @@ const Stake = ({ connected }) => {
             <img 
               src={atrac}
               alt=""
-              className="symbol" 
+              className="symbol"
             />
             <p className="name">
               ATRAC

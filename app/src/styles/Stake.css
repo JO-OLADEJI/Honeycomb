@@ -43,7 +43,6 @@
   justify-content: center;
   align-items: center;
   padding: .7rem;
-  /* background-color: #e6b967; */
   background-color: #C6A05D;
 }
 
@@ -60,7 +59,7 @@
 }
 
 .form input:hover {
-  border: 1px solid #c6882a36;
+  border: 1px solid #43292923;
 }
 
 .form input:focus {
@@ -78,9 +77,10 @@ input::-webkit-inner-spin-button {
 
 .form button {
   cursor: pointer;
-  padding: .3rem .4rem;
+  padding: .2rem .3rem;
   border: none;
-  background-color: #C68728;
+  background-color: transparent;
+  border: 2px solid #432929;
   color: #432929;
   font-family: inherit;
   font-weight: 500;
@@ -123,7 +123,7 @@ input::-webkit-inner-spin-button {
   border-radius: 1rem;
   font-family: 'Fredoka', sans-serif;
   border: 3px solid #432929;
-  border-top: 2px solid #432929;
+  border-top: 1px solid #432929;
   border-bottom: 6px solid #432929;
   font-size: 1.3rem;
   font-weight: 600;

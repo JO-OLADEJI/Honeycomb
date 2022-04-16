@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import '../styles/Dashboard.css';
 import Timer from './Timer.jsx';
 
-const Dashboard = ({ liquidity, stake, share, reward }) => {
+const Dashboard = ({ network, address, connect, liquidity, stake, share, reward }) => {
   const withdrawals = [
     { 'time': 180, 'size': 1.2, 'info': 'nothing for now' },
     { 'time': 150, 'size': 1.2, 'info': 'nothing for now' },
     { 'time': 120, 'size': 1.2, 'info': 'nothing for now' }
   ];
-  const [action, setAction] = useState('Withdraw');
+  const actions = ['Withdraw', 'Connect Wallet'];
+  const [action, setAction] = useState(actions[0]);
 
   return (
     <div className="dashboard">
@@ -16,7 +17,7 @@ const Dashboard = ({ liquidity, stake, share, reward }) => {
       <div className="content">
         <div className="left-side">
           {withdrawals.map((epoch, index) => (
-            <div className="timer-padding">
+            <div className="timer-padding" key={index}>
               <Timer
                 seconds={epoch['time']}
                 size={epoch['size']}

@@ -5,7 +5,8 @@ import logo from '../assets/honeycomb-logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet } from '@fortawesome/free-solid-svg-icons';
 
-const Nav = (props) => {
+
+const Nav = ({ address, connect }) => {
   const [selected, setSelected] = useState('stake');
 
   return (
@@ -34,8 +35,19 @@ const Nav = (props) => {
         </div>
       </div>
       <div className="buttons">
-        <button>
-          connect <FontAwesomeIcon icon={faWallet} className="wallet-icon" />
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            if (address === null) connect();
+          }}>
+          <p>
+            {address === null ? 
+            <>
+              connect <FontAwesomeIcon icon={faWallet} className="wallet-icon" />
+            </>
+            :
+            String(address).substring(0, 5) + '...' + String(address).substring(38)}
+          </p>
         </button>
       </div>
     </div>
