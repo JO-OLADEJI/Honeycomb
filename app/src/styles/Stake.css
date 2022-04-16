@@ -37,13 +37,14 @@
 }
 
 .form-wrapper {
-  border: 1px solid #C6872A;
+  border: 1px solid #432929;
   border-radius: .8rem;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: .7rem;
-  background-color: #ffecca;
+  /* background-color: #e6b967; */
+  background-color: #C6A05D;
 }
 
 .form input {
@@ -71,6 +72,10 @@ input::-webkit-inner-spin-button {
   display: none;
 }
 
+::placeholder {
+  color: #0000009a;
+}
+
 .form button {
   cursor: pointer;
   padding: .3rem .4rem;
@@ -84,7 +89,7 @@ input::-webkit-inner-spin-button {
 }
 
 .divider {
-  border-left: 1px solid #C6872A;
+  border-left: 1px solid #432929;
   height: 2rem;
   margin: 0 .5rem;
 }
@@ -105,7 +110,7 @@ input::-webkit-inner-spin-button {
 
 .stake-buttons {
   position: absolute;
-  bottom: 1rem;
+  bottom: 1.35rem;
   right: 50%;
   transform: translateX(50%);
 }
