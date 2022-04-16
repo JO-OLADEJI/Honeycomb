@@ -20,6 +20,7 @@ contract Honeycomb {
 
 	/**
 	 * @param _timeInterval - amount of time in seconds used for reward calculation
+	 *@param _poolToken - token address for pool to operate with
 	 */
 	constructor(uint _timeInterval, address _poolToken) {
 		admin = msg.sender;
