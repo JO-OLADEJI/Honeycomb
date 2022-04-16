@@ -329,6 +329,19 @@ describe('Honeycomb', () => {
       expect(difference).to.equal(epoch * 4);
     });
 
+    it('should return the address\' balance of the given ERC-20 token', async () => {
+      const amount = ethers.utils.parseEther('1');
+      await Bee.transfer(addr1['address'], amount);
+      const balance = await Honeycomb.getAddressBalance(Bee['address'], addr1['address']);
+      expect(await Bee.balanceOf(addr1['address'])).to.equal(balance);
+    });
+
+    it('should return an address\' allowance for Honeycomb contract', async () => {
+      await Bee.approve(Honeycomb['address'], reward); // approve is called here again because the approval in `beforeEach()` has been reset when lockReward() was called -> which internally calls `transferFrom()`
+      const allowance = await Honeycomb.getAddressAllowance(Bee['address'], deployer['address']);
+      expect(allowance).to.equal(reward);
+    });
+
   });
 
 });
