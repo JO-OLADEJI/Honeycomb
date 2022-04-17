@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/Dashboard.css';
 import Timer from './Timer.jsx';
 
-const Dashboard = ({ network, address, connect, epoch3, epoch4, epoch5, liquidity, stake, share, reward }) => {
+const Dashboard = ({ network, address, connect, epoch3, epoch4, epoch5, liquidity, stake, share, rewardRemaining }) => {
   const withdrawalInfo = [
     { 'size': 1.2, 'info': 'withdrawal 1 start-time' },
     { 'size': 1.2, 'info': 'withdrawal 2 start-time' },
@@ -59,9 +59,9 @@ const Dashboard = ({ network, address, connect, epoch3, epoch4, epoch5, liquidit
             </span>
           </div>
           <div className="info-container">
-            <h3>Potential Reward:</h3>
+            <h3>Unsettled Reward:</h3>
             <span>
-              {reward}
+              {rewardRemaining}
             </span>
           </div>
           <div className="dashboard-buttons">

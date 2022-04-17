@@ -14,7 +14,7 @@ const App = () => {
   const [liquidity, setLiquidity] = useState(0);
   const [stake, setStake] = useState(0);
   const [share, setShare] = useState(0);
-  const [reward, setReward] = useState(0);
+  const [rewardRemaining, setRewardRemaining] = useState(0);
   const [Honeycomb, setHoneycomb] = useState(null);
   const [epoch2, setEpoch2] = useState(0);
   const [epoch3, setEpoch3] = useState(0);
@@ -22,7 +22,7 @@ const App = () => {
   const [epoch5, setEpoch5] = useState(0);
 
   const calculateShare = (contribution, total) => {
-    return (contribution / total) * 100;
+    return contribution === 0 || total === 0 ? 0 : (contribution / total) * 100;
   }
 
   const handleConnectWallet = async () => {
@@ -68,31 +68,28 @@ const App = () => {
     const getHoneycombInfo = async () => {
       if (Honeycomb != null) {
         // const deployTime = await Honeycomb.deployTime();
-        // const rewardRemaining = await Honeycomb.rewardRemaining();
-        // const stakingPool = await Honeycomb.stakingPool();
-        // const R1 = await Honeycomb.reward01();
-        // const R2 = await Honeycomb.reward02();
-        // const R3 = await Honeycomb.reward03();
-        // const amountStaked = await Honeycomb.amountStaked(address);
-        // const admin = await Honeycomb.admin();
+        const rewardRemaining = await Honeycomb.rewardRemaining();
+        const stakingPool = await Honeycomb.stakingPool();
+        const amountStaked = await Honeycomb.amountStaked(address);
         const secondEpochStart = await Honeycomb.secondEpochStart();
         const thirdEpochStart = await Honeycomb.thirdEpochStart();
         const fourthEpochStart = await Honeycomb.fourthEpochStart();
         const fifthEpochStart = await Honeycomb.fifthEpochStart();
+
+        setLiquidity(() => Number(ethers.utils.formatEther(stakingPool.toString())));
+        setStake(() => Number(ethers.utils.formatEther(amountStaked.toString())));
+        setRewardRemaining(() => Number(ethers.utils.formatEther(rewardRemaining.toString())));
         setEpoch2(() => Number(secondEpochStart.toString()) * 1000);
         setEpoch3(() => Number(thirdEpochStart.toString()) * 1000);
         setEpoch4(() => Number(fourthEpochStart.toString()) * 1000);
         setEpoch5(() => Number(fifthEpochStart.toString()) * 1000);
-        
-        // console.log({ 'deployTime': deployTime.toString(), 'reward-remaining': ethers.utils.formatEther(rewardRemaining.toString()) });
-        // setLiquidity(() => totalStaked.toString());
       }
     }
     getHoneycombInfo();
   }, [Honeycomb, address]);
 
   useEffect(() => {
-    // setShare(() => calculateShare(stake, liquidity));
+    setShare(() => calculateShare(stake, liquidity));
   }, [stake, liquidity]);
 
 
@@ -129,7 +126,7 @@ const App = () => {
               liquidity={liquidity}
               stake={stake}
               share={share}
-              reward={reward}
+              rewardRemaining={rewardRemaining}
             />
           }
         />

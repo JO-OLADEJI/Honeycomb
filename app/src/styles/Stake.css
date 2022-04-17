@@ -102,10 +102,18 @@ input::-webkit-inner-spin-button {
   color: #432929;
 }
 
-.token img {
-  border-radius: 50%;
-  width: 1.5rem;
-  margin-right: .5rem;
+.token abbr {
+  margin-left: .5rem;
+}
+
+.copy-icon {
+  cursor: pointer;
+  opacity: .5;
+  transition: opacity .4s ease-out;
+}
+
+.copy-icon:hover {
+  opacity: 1;
 }
 
 .stake-buttons {

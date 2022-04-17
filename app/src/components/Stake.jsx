@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../styles/Stake.css';
 import Timer from './Timer.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import atrac from '../assets/atrac.png';
 
 const Stake = ({ network, address, connect, epoch2 }) => {
@@ -21,14 +23,12 @@ const Stake = ({ network, address, connect, epoch2 }) => {
           <button>MAX</button>
           <div className="divider" />
           <div className="token">
-            <img 
-              src={atrac}
-              alt=""
-              className="symbol"
-            />
             <p className="name">
               ATRAC
             </p>
+            <abbr title="copy address">
+              <FontAwesomeIcon icon={faCopy} className="copy-icon" />
+            </abbr>
           </div>
         </div>
       </div>
