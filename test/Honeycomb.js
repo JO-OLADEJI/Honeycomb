@@ -305,6 +305,14 @@ describe('Honeycomb', () => {
     });
 
 
+    it('should return the timestamp in which the second epoch starts', async () => {
+      // second epoch refers to the timespan between t0+T to t0+2T
+      const secondEpochStart = await Honeycomb.secondEpochStart();
+      const deployTime = await Honeycomb.deployTime();
+      const difference = secondEpochStart.sub(deployTime);
+      expect(difference).to.equal(epoch);
+    });
+
     it('should return the timestamp in which the third epoch starts', async () => {
       // Third epoch refers to the timespan between t0+2T to t0+3T
       const thirdEpochStart = await Honeycomb.thirdEpochStart();

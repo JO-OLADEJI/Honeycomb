@@ -61,7 +61,7 @@ contract Honeycomb {
 	 */
 	function stake(uint _amount) external {
         require(rewardLocked, "Honeycomb: reward not locked-in!");
-		require(block.timestamp < deployTime + epoch, "Honeycomb: staking epoch has elapsed!");
+		require(block.timestamp < secondEpochStart(), "Honeycomb: staking epoch has elapsed!");
 		require(poolToken.allowance(msg.sender, address(this)) >= _amount, "Honeycomb: insufficient erc-20 allowance!");
 
 		poolToken.transferFrom(msg.sender, address(this), _amount);
@@ -119,6 +119,14 @@ contract Honeycomb {
 
 
 	/*************************** helper functions ***************************/
+	/**
+	 * @dev returns the time at which all deposits are stopped
+	 * - time of deployment + 1 epoch
+	 */
+	function secondEpochStart() public view returns(uint) {
+		return deployTime + epoch;
+	}
+
 	/**
 	 * @dev returns the time from which withdrawals and rewards can commence 
 	 * - 20% of pool reward by proportion
