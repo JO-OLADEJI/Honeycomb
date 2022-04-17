@@ -4,15 +4,22 @@ import Nav from './components/Nav.jsx';
 import Stake from './components/Stake.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import { Routes, Route } from 'react-router-dom';
+import { ethers } from 'ethers';
 import { connectWallet, refreshConnectWallet, getChainId } from './utils/connect-wallet.js';
+import { init } from './utils/honeycomb.js';
 
 const App = () => {
   const [address, setAddress] = useState(null);
   const [network, setNetwork] = useState(null);
-  const [liquidity, setLiquidity] = useState(185.267);
-  const [stake, setStake] = useState(25);
-  const [share, setShare] = useState(25);
+  const [liquidity, setLiquidity] = useState(0);
+  const [stake, setStake] = useState(0);
+  const [share, setShare] = useState(0);
   const [reward, setReward] = useState(0);
+  const [Honeycomb, setHoneycomb] = useState(null);
+  const [epoch2, setEpoch2] = useState(0);
+  const [epoch3, setEpoch3] = useState(0);
+  const [epoch4, setEpoch4] = useState(0);
+  const [epoch5, setEpoch5] = useState(0);
 
   const calculateShare = (contribution, total) => {
     return (contribution / total) * 100;
@@ -20,12 +27,16 @@ const App = () => {
 
   const handleConnectWallet = async () => {
     const account = await connectWallet();
+    const contract = await init();
+    setHoneycomb(() => contract);
     setAddress(() => account);
   }
 
   useEffect(() => {
     const getWalletInfo = async () => {
       const address = await refreshConnectWallet();
+      const contract = await init();
+      setHoneycomb(() => contract);
       setAddress(() => address);
     };
     const getChainInfo = async () => {
@@ -54,7 +65,34 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    setShare(() => calculateShare(stake, liquidity));
+    const getHoneycombInfo = async () => {
+      if (Honeycomb != null) {
+        // const deployTime = await Honeycomb.deployTime();
+        // const rewardRemaining = await Honeycomb.rewardRemaining();
+        // const stakingPool = await Honeycomb.stakingPool();
+        // const R1 = await Honeycomb.reward01();
+        // const R2 = await Honeycomb.reward02();
+        // const R3 = await Honeycomb.reward03();
+        // const amountStaked = await Honeycomb.amountStaked(address);
+        // const admin = await Honeycomb.admin();
+        const secondEpochStart = await Honeycomb.secondEpochStart();
+        const thirdEpochStart = await Honeycomb.thirdEpochStart();
+        const fourthEpochStart = await Honeycomb.fourthEpochStart();
+        const fifthEpochStart = await Honeycomb.fifthEpochStart();
+        setEpoch2(() => Number(secondEpochStart.toString()) * 1000);
+        setEpoch3(() => Number(thirdEpochStart.toString()) * 1000);
+        setEpoch4(() => Number(fourthEpochStart.toString()) * 1000);
+        setEpoch5(() => Number(fifthEpochStart.toString()) * 1000);
+        
+        // console.log({ 'deployTime': deployTime.toString(), 'reward-remaining': ethers.utils.formatEther(rewardRemaining.toString()) });
+        // setLiquidity(() => totalStaked.toString());
+      }
+    }
+    getHoneycombInfo();
+  }, [Honeycomb, address]);
+
+  useEffect(() => {
+    // setShare(() => calculateShare(stake, liquidity));
   }, [stake, liquidity]);
 
 
@@ -71,6 +109,7 @@ const App = () => {
           path="/stake" 
           element={
             <Stake
+              epoch2={epoch2}
               network={network}
               address={address}
               connect={handleConnectWallet}
@@ -81,6 +120,9 @@ const App = () => {
           path="/dashboard" 
           element={
             <Dashboard
+              epoch3={epoch3}
+              epoch4={epoch4}
+              epoch5={epoch5}
               network={network}
               address={address}
               connect={handleConnectWallet}

@@ -35,5 +35,5 @@ const deploy = async (timeInterval) => {
 }
 
 
-const T = 5 * 60; // 5 minutes
+const T = 10 * 60; // 10 minutes
 deploy(T);

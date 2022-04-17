@@ -3,7 +3,7 @@ import '../styles/Stake.css';
 import Timer from './Timer.jsx';
 import atrac from '../assets/atrac.png';
 
-const Stake = ({ network, address, connect }) => {
+const Stake = ({ network, address, connect, epoch2 }) => {
   const actions = ['Stake', 'Approve ATRAC', 'Connect Wallet'];
   const [action, setAction] = useState(actions[0]);
   const [erc20Bal, setErc20Bal] = useState(0.272964);
@@ -33,7 +33,7 @@ const Stake = ({ network, address, connect }) => {
         </div>
       </div>
       <Timer 
-        seconds={180}
+        targetTimeMs={epoch2}
         size={2}
       />
       <div className="stake-buttons">

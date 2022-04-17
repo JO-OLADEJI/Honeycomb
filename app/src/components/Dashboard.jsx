@@ -2,28 +2,42 @@ import React, { useState } from 'react';
 import '../styles/Dashboard.css';
 import Timer from './Timer.jsx';
 
-const Dashboard = ({ network, address, connect, liquidity, stake, share, reward }) => {
-  const withdrawals = [
-    { 'time': 180, 'size': 1.2, 'info': 'nothing for now' },
-    { 'time': 150, 'size': 1.2, 'info': 'nothing for now' },
-    { 'time': 120, 'size': 1.2, 'info': 'nothing for now' }
+const Dashboard = ({ network, address, connect, epoch3, epoch4, epoch5, liquidity, stake, share, reward }) => {
+  const withdrawalInfo = [
+    { 'size': 1.2, 'info': 'withdrawal 1 start-time' },
+    { 'size': 1.2, 'info': 'withdrawal 2 start-time' },
+    { 'size': 1.2, 'info': 'withdrawal 3 start-time' }
   ];
   const actions = ['Withdraw', 'Connect Wallet'];
   const [action, setAction] = useState(actions[0]);
+
 
   return (
     <div className="dashboard">
       <h3>Dashboard</h3>
       <div className="content">
         <div className="left-side">
-          {withdrawals.map((epoch, index) => (
-            <div className="timer-padding" key={index}>
-              <Timer
-                seconds={epoch['time']}
-                size={epoch['size']}
-              />
-            </div>
-          ))}
+          <div className="timer-padding">
+            <Timer
+              targetTimeMs={epoch3}
+              size={withdrawalInfo[0]['size']}
+              info={withdrawalInfo[0]['info']}
+            />
+          </div>
+          <div className="timer-padding">
+            <Timer
+              targetTimeMs={epoch4}
+              size={withdrawalInfo[1]['size']}
+              info={withdrawalInfo[1]['info']}
+            />
+          </div>
+          <div className="timer-padding">
+            <Timer
+              targetTimeMs={epoch5}
+              size={withdrawalInfo[2]['size']}
+              info={withdrawalInfo[2]['info']}
+            />
+          </div>
         </div>
         <div className="right-side">
           <div className="info-container">
