@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../styles/Nav.css';
 import { Link } from 'react-router-dom';
 import logo from '../assets/honeycomb-logo.png';
@@ -6,8 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet } from '@fortawesome/free-solid-svg-icons';
 
 
-const Nav = ({ address, connect }) => {
-  const [selected, setSelected] = useState('stake');
+const Nav = ({ address, connect, display, setDisplay }) => {
 
   return (
     <div className="nav">
@@ -22,14 +21,14 @@ const Nav = ({ address, connect }) => {
         <div className="wrapper">
           <Link 
             to="/stake" 
-            onClick={() => setSelected('stake')}
-            className={selected === 'stake' ? 'selected': null}>
+            onClick={() => setDisplay('stake')}
+            className={display === 'stake' ? 'selected': null}>
             Stake
           </Link>
           <Link 
             to="/dashboard"
-            onClick={() => setSelected('dashboard')}
-            className={selected === 'dashboard' ? 'selected': null}>
+            onClick={() => setDisplay('dashboard')}
+            className={display === 'dashboard' ? 'selected': null}>
             Dashboard
           </Link>
         </div>

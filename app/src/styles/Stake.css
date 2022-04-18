@@ -37,7 +37,7 @@
 }
 
 .form-wrapper {
-  border: 1px solid #432929;
+  border: 1px solid #b89354;
   border-radius: .8rem;
   display: flex;
   justify-content: center;
@@ -80,12 +80,16 @@ input::-webkit-inner-spin-button {
   padding: .2rem .3rem;
   border: none;
   background-color: transparent;
-  border: 2px solid #432929;
+  border: 1px solid #432929;
   color: #432929;
   font-family: inherit;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: .7rem;
-  font-size: .9rem;
+  font-size: .6rem;
+}
+
+.form button:hover {
+  border: 1px solid white;
 }
 
 .divider {
@@ -136,4 +140,9 @@ input::-webkit-inner-spin-button {
   font-size: 1.3rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+.stake-buttons button:disabled {
+  opacity: .7;
+  cursor: not-allowed;
 }

@@ -6,7 +6,9 @@ import Dashboard from './components/Dashboard.jsx';
 import { Routes, Route } from 'react-router-dom';
 import { ethers } from 'ethers';
 import { connectWallet, refreshConnectWallet, getChainId } from './utils/connect-wallet.js';
-import { init } from './utils/honeycomb.js';
+import erc20 from './utils/erc20.json';
+import contract from './utils/honeycomb.json';
+
 
 const App = () => {
   const [address, setAddress] = useState(null);
@@ -15,11 +17,14 @@ const App = () => {
   const [stake, setStake] = useState(0);
   const [share, setShare] = useState(0);
   const [rewardRemaining, setRewardRemaining] = useState(0);
-  const [Honeycomb, setHoneycomb] = useState(null);
+  const [balance, setBalance] = useState(0);
+  const [allowance, setAllowance] = useState(0);
   const [epoch2, setEpoch2] = useState(0);
   const [epoch3, setEpoch3] = useState(0);
   const [epoch4, setEpoch4] = useState(0);
   const [epoch5, setEpoch5] = useState(0);
+  const [display, setDisplay] = useState('stake');
+  const [symbol, setSymbol] = useState('');
 
   const calculateShare = (contribution, total) => {
     return contribution === 0 || total === 0 ? 0 : (contribution / total) * 100;
@@ -27,16 +32,64 @@ const App = () => {
 
   const handleConnectWallet = async () => {
     const account = await connectWallet();
-    const contract = await init();
-    setHoneycomb(() => contract);
     setAddress(() => account);
+  }
+
+  const handleStake = async (amount) => {
+    if (address === null) return;
+    try {
+      const amountInWei = ethers.utils.parseEther(amount);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = await provider.getSigner(address);
+      const Honeycomb = new ethers.Contract(contract['address'], contract['abi'], signer);
+      const tx = await Honeycomb.stake(amountInWei);
+      await tx.wait();
+      setStake(() => Number(amount) + stake);
+      setLiquidity(() => Number(amount) + liquidity);
+    }
+    catch (err) {
+      setAllowance(() => 0);
+      console.log(err.message);
+    }
+  }
+
+  const handleApprove = async (amount) => {
+    if (address === null) return;
+    try {
+      const amountInWei = ethers.utils.parseEther(amount);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner(address);
+      const Erc20 = new ethers.Contract(erc20['address'], erc20['abi'], signer);
+      const tx = await Erc20.approve(contract['address'], amountInWei);
+      await tx.wait();
+      setAllowance(() => Number(amount));
+    }
+    catch (err) {
+      setAllowance(() => 0);
+      console.log(err.message);
+    }
+  }
+
+  const handleHarvest = async () => {
+    if (address === null) return;
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = await provider.getSigner(address);
+      const Honeycomb = new ethers.Contract(contract['address'], contract['abi'], signer);
+      const tx = await Honeycomb.harvest();
+      await tx.wait();
+      setLiquidity(() => liquidity - Number(stake));
+      setStake(() => 0);
+    }
+    catch (err) {
+      setAllowance(() => 0);
+      console.log(err.message);
+    }
   }
 
   useEffect(() => {
     const getWalletInfo = async () => {
       const address = await refreshConnectWallet();
-      const contract = await init();
-      setHoneycomb(() => contract);
       setAddress(() => address);
     };
     const getChainInfo = async () => {
@@ -66,27 +119,37 @@ const App = () => {
 
   useEffect(() => {
     const getHoneycombInfo = async () => {
-      if (Honeycomb != null) {
+      if (window.ethereum) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const Erc20 = new ethers.Contract(erc20['address'], erc20['abi'], provider);
+        const Honeycomb = new ethers.Contract(contract['address'], contract['abi'], provider);
+
         // const deployTime = await Honeycomb.deployTime();
         const rewardRemaining = await Honeycomb.rewardRemaining();
         const stakingPool = await Honeycomb.stakingPool();
-        const amountStaked = await Honeycomb.amountStaked(address);
+        const amountStaked = await Honeycomb.amountStaked(address || '0x0000000000000000000000000000000000000000');
+        const allowance = await Honeycomb.getAddressAllowance(address || '0x0000000000000000000000000000000000000000');
+        const balance = await Honeycomb.getAddressBalance(address || '0x0000000000000000000000000000000000000000');
         const secondEpochStart = await Honeycomb.secondEpochStart();
         const thirdEpochStart = await Honeycomb.thirdEpochStart();
         const fourthEpochStart = await Honeycomb.fourthEpochStart();
         const fifthEpochStart = await Honeycomb.fifthEpochStart();
+        const tokenSymbol = await Erc20.symbol();
 
         setLiquidity(() => Number(ethers.utils.formatEther(stakingPool.toString())));
         setStake(() => Number(ethers.utils.formatEther(amountStaked.toString())));
         setRewardRemaining(() => Number(ethers.utils.formatEther(rewardRemaining.toString())));
+        setAllowance(() => Number(ethers.utils.formatEther(allowance.toString())));
+        setBalance(() => Number(ethers.utils.formatEther(balance.toString())));
         setEpoch2(() => Number(secondEpochStart.toString()) * 1000);
         setEpoch3(() => Number(thirdEpochStart.toString()) * 1000);
         setEpoch4(() => Number(fourthEpochStart.toString()) * 1000);
         setEpoch5(() => Number(fifthEpochStart.toString()) * 1000);
+        setSymbol(() => tokenSymbol);
       }
     }
     getHoneycombInfo();
-  }, [Honeycomb, address]);
+  }, [address, stake, liquidity]);
 
   useEffect(() => {
     setShare(() => calculateShare(stake, liquidity));
@@ -97,6 +160,8 @@ const App = () => {
     <div className="App">
       <Nav 
         address={address}
+        display={display}
+        setDisplay={setDisplay}
         connect={handleConnectWallet} 
       />
 
@@ -109,6 +174,11 @@ const App = () => {
               epoch2={epoch2}
               network={network}
               address={address}
+              balance={balance}
+              stake={handleStake}
+              allowance={allowance}
+              approve={handleApprove}
+              token={erc20['address']}
               connect={handleConnectWallet}
             />
           }
@@ -117,15 +187,17 @@ const App = () => {
           path="/dashboard" 
           element={
             <Dashboard
+              stake={stake}
+              share={share}
               epoch3={epoch3}
               epoch4={epoch4}
               epoch5={epoch5}
+              symbol={symbol}
               network={network}
               address={address}
-              connect={handleConnectWallet}
               liquidity={liquidity}
-              stake={stake}
-              share={share}
+              harvest={handleHarvest}
+              connect={handleConnectWallet}
               rewardRemaining={rewardRemaining}
             />
           }

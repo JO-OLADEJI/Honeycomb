@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/Dashboard.css';
 import Timer from './Timer.jsx';
 
-const Dashboard = ({ network, address, connect, epoch3, epoch4, epoch5, liquidity, stake, share, rewardRemaining }) => {
+const Dashboard = ({ network, address, connect, harvest, epoch3, epoch4, epoch5, liquidity, stake, share, rewardRemaining, symbol }) => {
   const withdrawalInfo = [
     { 'size': 1.2, 'info': 'withdrawal 1 start-time' },
     { 'size': 1.2, 'info': 'withdrawal 2 start-time' },
     { 'size': 1.2, 'info': 'withdrawal 3 start-time' }
   ];
-  const actions = ['Withdraw', 'Connect Wallet'];
+  const [actions] = useState(['Harvest', 'Connect Wallet']);
   const [action, setAction] = useState(actions[0]);
+  const [disableButton, setDisableButton] = useState(false);
+
+  useEffect(() => {
+    if (address === null) {
+      setAction(() => actions[1]);
+      setDisableButton(() => false);
+    }
+    else if (stake === 0 || epoch3 - new Date().getTime() > 0) {
+      setAction(() => actions[0]);
+      setDisableButton(() => true);
+    }
+  }, [address, actions, stake, epoch3]);
 
 
   return (
@@ -59,13 +71,23 @@ const Dashboard = ({ network, address, connect, epoch3, epoch4, epoch5, liquidit
             </span>
           </div>
           <div className="info-container">
-            <h3>Unsettled Reward:</h3>
+            <h3>Locked Rewards:</h3>
             <span>
-              {rewardRemaining}
+              {rewardRemaining} {symbol}
             </span>
           </div>
           <div className="dashboard-buttons">
-            <button>
+            <button 
+              disabled={disableButton}
+              onClick={(e) => {
+                e.preventDefault();
+                if (action === actions[0]) {
+                  harvest();
+                }
+                else if (action === actions[1]) {
+                  connect();
+                }
+              }}>
               {action}
             </button>
           </div>

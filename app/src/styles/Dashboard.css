@@ -80,3 +80,8 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.dashboard-buttons button:disabled {
+  opacity: .7;
+  cursor: not-allowed;
+}

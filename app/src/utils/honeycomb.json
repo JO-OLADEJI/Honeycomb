@@ -1,6 +1,6 @@
-export const contract = {
-  'address': '0x43aC9CfF1b357B91D0B43a7eEd83efF028C37B68',
-  'abi': [
+{
+  "address": "0xB4d763092BCB403E3006CE890EeCeeF5EbB33559",
+  "abi": [
     {
       "inputs": [
         {
@@ -105,11 +105,6 @@ export const contract = {
       "inputs": [
         {
           "internalType": "address",
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
           "name": "wallet",
           "type": "address"
         }
@@ -127,11 +122,6 @@ export const contract = {
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "token",
-          "type": "address"
-        },
         {
           "internalType": "address",
           "name": "wallet",

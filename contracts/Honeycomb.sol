@@ -158,22 +158,20 @@ contract Honeycomb {
 
 
     /**
-     * @dev returns an address' balance of an ERC-20 token (it's open ended to extend utility)
-     * @param token address of ERC-2O token
+     * @dev returns an address' balance of an ERC-20 token
      * @param wallet wallet address to get balance
      */
-	function getAddressBalance(address token, address wallet) external view returns(uint) {
-		return IERC20(token).balanceOf(wallet);
+	function getAddressBalance(address wallet) external view returns(uint) {
+		return poolToken.balanceOf(wallet);
 	}
 
 
     /**
-     * @dev returns an address' allowance of an ERC-20 token for this contract (it's open ended to extend utility)
-     * @param token address of ERC-20 token
+     * @dev returns an address' allowance of an ERC-20 token for this contract
      * @param wallet wallet address to get allowance
      */
-    function getAddressAllowance(address token, address wallet) external view returns(uint) {
-        return IERC20(token).allowance(wallet, address(this));
+    function getAddressAllowance(address wallet) external view returns(uint) {
+        return poolToken.allowance(wallet, address(this));
     }
 
 }
