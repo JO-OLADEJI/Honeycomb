@@ -5,11 +5,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 
-const Stake = ({ network, address, connect, stake, approve, epoch2, balance, allowance, token }) => {
+const Stake = ({ network, address, connect, stake, approve, epoch2, balance, allowance, token, setDisplay }) => {
   const [actions] = useState(['Stake', 'Approve ATRAC', 'Insufficient ATRAC', 'Connect Wallet']);
   const [action, setAction] = useState(actions[0]);
   const [amount, setAmount] = useState('');
   const [disableButton, setDisableButton] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Stake | Honeycomb';
+    setDisplay('stake');
+  }, [setDisplay]);
 
   useEffect(() => {
     if (address === null) {
@@ -61,7 +66,7 @@ const Stake = ({ network, address, connect, stake, approve, epoch2, balance, all
             <p className="name">
               ATRAC
             </p>
-            <abbr title="copy address" onClick={navigator.clipboard.writeText(token)}>
+            <abbr title="copy address" onClick={() => navigator.clipboard.writeText(token)}>
               <FontAwesomeIcon icon={faCopy} className="copy-icon" />
             </abbr>
           </div>

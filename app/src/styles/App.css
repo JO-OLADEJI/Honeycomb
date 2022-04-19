@@ -14,4 +14,11 @@
   font-weight: 500;
   cursor: pointer;
   font-size: .85rem;
+  color: #432929;
+  font-weight: 600;
+  transition: color .3s ease-out;
+}
+
+.add-to-wallet:hover {
+  color: #C68728;
 }

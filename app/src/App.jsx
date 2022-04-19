@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles/App.css';
 import Nav from './components/Nav.jsx';
+import Home from './components/Home.jsx';
 import Stake from './components/Stake.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import { Routes, Route } from 'react-router-dom';
@@ -25,6 +26,7 @@ const App = () => {
   const [epoch5, setEpoch5] = useState(0);
   const [display, setDisplay] = useState('stake');
   const [symbol, setSymbol] = useState('');
+  const [tokenDecimals, setTokenDecimals] = useState(18);
 
   const calculateShare = (contribution, total) => {
     return contribution === 0 || total === 0 ? 0 : (contribution / total) * 100;
@@ -87,6 +89,30 @@ const App = () => {
     }
   }
 
+  const addTokenToMetamask = async () => {
+    if (window.ethereum) {
+      try {
+        const options = {
+          'address': erc20['address'],
+          'symbol': symbol,
+          'decimals': tokenDecimals,
+          'image': ''
+        }
+        const success = await window.ethereum.request({ 
+          method: 'wallet_watchAsset' ,
+          params: {
+            type: 'ERC20',
+            options
+          }
+        });
+        success ? console.log(`${symbol} added to Metamask✔`) : console.log(`Error adding ${symbol} to Metamask❌`);
+      }
+      catch (err) {
+        console.log(err.message);
+      }
+    }
+  }
+
   useEffect(() => {
     const getWalletInfo = async () => {
       const address = await refreshConnectWallet();
@@ -135,6 +161,7 @@ const App = () => {
         const fourthEpochStart = await Honeycomb.fourthEpochStart();
         const fifthEpochStart = await Honeycomb.fifthEpochStart();
         const tokenSymbol = await Erc20.symbol();
+        const decimals = await Erc20.decimals();
 
         setLiquidity(() => Number(ethers.utils.formatEther(stakingPool.toString())));
         setStake(() => Number(ethers.utils.formatEther(amountStaked.toString())));
@@ -146,6 +173,7 @@ const App = () => {
         setEpoch4(() => Number(fourthEpochStart.toString()) * 1000);
         setEpoch5(() => Number(fifthEpochStart.toString()) * 1000);
         setSymbol(() => tokenSymbol);
+        setTokenDecimals(() => Number(decimals.toString()));
       }
     }
     getHoneycombInfo();
@@ -161,13 +189,12 @@ const App = () => {
       <Nav 
         address={address}
         display={display}
-        setDisplay={setDisplay}
         connect={handleConnectWallet} 
       />
 
       <Routes>
-        <Route path="/" element={<Stake />} />
-        <Route 
+        <Route path="/" element={<Home />} />
+        <Route
           path="/stake" 
           element={
             <Stake
@@ -178,6 +205,7 @@ const App = () => {
               stake={handleStake}
               allowance={allowance}
               approve={handleApprove}
+              setDisplay={setDisplay}
               token={erc20['address']}
               connect={handleConnectWallet}
             />
@@ -197,13 +225,24 @@ const App = () => {
               address={address}
               liquidity={liquidity}
               harvest={handleHarvest}
+              setDisplay={setDisplay}
               connect={handleConnectWallet}
               rewardRemaining={rewardRemaining}
             />
           }
         />
       </Routes>
-      <p className="add-to-wallet">Add ATRAC to Wallet</p>
+      {symbol.length > 0 ?
+        <p 
+          className="add-to-wallet"
+          onClick={(e) => {
+            e.preventDefault();
+            addTokenToMetamask();
+          }}>
+          Add {symbol} to Metamask
+        </p>
+        : 
+      null}
     </div>
   );
 }

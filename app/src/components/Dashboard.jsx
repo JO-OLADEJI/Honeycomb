@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../styles/Dashboard.css';
 import Timer from './Timer.jsx';
 
-const Dashboard = ({ network, address, connect, harvest, epoch3, epoch4, epoch5, liquidity, stake, share, rewardRemaining, symbol }) => {
+const Dashboard = ({ network, address, connect, harvest, epoch3, epoch4, epoch5, liquidity, stake, share, rewardRemaining, setDisplay, symbol }) => {
   const withdrawalInfo = [
     { 'size': 1.2, 'info': 'withdrawal 1 start-time' },
     { 'size': 1.2, 'info': 'withdrawal 2 start-time' },
@@ -11,6 +11,11 @@ const Dashboard = ({ network, address, connect, harvest, epoch3, epoch4, epoch5,
   const [actions] = useState(['Harvest', 'Connect Wallet']);
   const [action, setAction] = useState(actions[0]);
   const [disableButton, setDisableButton] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Dashboard | Honeycomb';
+    setDisplay('dashboard');
+  }, [setDisplay]);
 
   useEffect(() => {
     if (address === null) {

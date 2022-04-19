@@ -17,18 +17,3 @@ export const tick = (timestampMs) => {
     'days': timestamp.diff(now, 'days')
   }
 }
-
-
-export const getRemainingMinutes = (now, target) => {
-  
-}
-
-
-export const getRemainingHours = (now, target) => {
-  
-}
-
-
-export const getRemainingDays = (now, target) => {
-  
-}

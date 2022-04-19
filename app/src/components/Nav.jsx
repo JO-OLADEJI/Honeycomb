@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet } from '@fortawesome/free-solid-svg-icons';
 
 
-const Nav = ({ address, connect, display, setDisplay }) => {
+const Nav = ({ address, connect, display }) => {
 
   return (
     <div className="nav">
@@ -21,13 +21,11 @@ const Nav = ({ address, connect, display, setDisplay }) => {
         <div className="wrapper">
           <Link 
             to="/stake" 
-            onClick={() => setDisplay('stake')}
             className={display === 'stake' ? 'selected': null}>
             Stake
           </Link>
           <Link 
             to="/dashboard"
-            onClick={() => setDisplay('dashboard')}
             className={display === 'dashboard' ? 'selected': null}>
             Dashboard
           </Link>
