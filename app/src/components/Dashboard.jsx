@@ -4,9 +4,9 @@ import Timer from './Timer.jsx';
 
 const Dashboard = ({ network, address, connect, harvest, epoch3, epoch4, epoch5, liquidity, stake, share, rewardRemaining, setDisplay, symbol }) => {
   const withdrawalInfo = [
-    { 'size': 1.2, 'info': 'withdrawal 1 start-time' },
-    { 'size': 1.2, 'info': 'withdrawal 2 start-time' },
-    { 'size': 1.2, 'info': 'withdrawal 3 start-time' }
+    { 'size': 1.2, 'info': 'countdown to 1st withdrawal epoch.\nTime may vary slightly due to block \ntimestamp being set by different miners', 'title': '1st withdrawal epoch' },
+    { 'size': 1.2, 'info': 'countdown to 2nd withdrawal epoch.\nTime may vary slightly due to block \ntimestamp being set by different miners', 'title': '2nd withdrawal epoch' },
+    { 'size': 1.2, 'info': 'countdown to 3rd withdrawal epoch.\nTime may vary slightly due to block \ntimestamp being set by different miners', 'title': '3rd withdrawal epoch' }
   ];
   const [actions] = useState(['Harvest', 'Connect Wallet']);
   const [action, setAction] = useState(actions[0]);
@@ -39,6 +39,7 @@ const Dashboard = ({ network, address, connect, harvest, epoch3, epoch4, epoch5,
               targetTimeMs={epoch3}
               size={withdrawalInfo[0]['size']}
               info={withdrawalInfo[0]['info']}
+              title={withdrawalInfo[0]['title']}
             />
           </div>
           <div className="timer-padding">
@@ -46,6 +47,7 @@ const Dashboard = ({ network, address, connect, harvest, epoch3, epoch4, epoch5,
               targetTimeMs={epoch4}
               size={withdrawalInfo[1]['size']}
               info={withdrawalInfo[1]['info']}
+              title={withdrawalInfo[1]['title']}
             />
           </div>
           <div className="timer-padding">
@@ -53,6 +55,7 @@ const Dashboard = ({ network, address, connect, harvest, epoch3, epoch4, epoch5,
               targetTimeMs={epoch5}
               size={withdrawalInfo[2]['size']}
               info={withdrawalInfo[2]['info']}
+              title={withdrawalInfo[2]['title']}
             />
           </div>
         </div>

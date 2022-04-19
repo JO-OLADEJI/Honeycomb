@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { tick } from '../utils/countdown.js';
 
-const Timer = ({ targetTimeMs, size, info }) => {
+const Timer = ({ targetTimeMs, size, info, title }) => {
   const [remainingTime, setRemainingTime] = useState({ 'seconds': 0, 'minutes': 0, 'hours': 0, 'days': 0 });
 
   useEffect(() => {
@@ -29,7 +29,12 @@ const Timer = ({ targetTimeMs, size, info }) => {
           <h1 className="seperator">:</h1>
           <h1 className="seconds">{remainingTime['seconds'] < 0 ? '00' : String(remainingTime['seconds']).padStart(2, '0')}</h1>
         </>}
-        <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
+        <FontAwesomeIcon 
+          icon={faCircleInfo} 
+          className="info-icon"
+          title={info}
+        />
+        <h6 className="timer-title">{title}</h6>
       </div>
     </div>
   );

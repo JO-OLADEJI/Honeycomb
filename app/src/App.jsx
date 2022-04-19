@@ -34,6 +34,8 @@ const App = () => {
 
   const handleConnectWallet = async () => {
     const account = await connectWallet();
+    const chain = await getChainId();
+    setNetwork(() => chain);
     setAddress(() => account);
   }
 
@@ -177,7 +179,7 @@ const App = () => {
       }
     }
     getHoneycombInfo();
-  }, [address, stake, liquidity]);
+  }, [address, stake, liquidity, network]);
 
   useEffect(() => {
     setShare(() => calculateShare(stake, liquidity));
@@ -189,7 +191,8 @@ const App = () => {
       <Nav 
         address={address}
         display={display}
-        connect={handleConnectWallet} 
+        network={network}
+        connect={handleConnectWallet}
       />
 
       <Routes>
@@ -199,6 +202,7 @@ const App = () => {
           element={
             <Stake
               epoch2={epoch2}
+              symbol={symbol}
               network={network}
               address={address}
               balance={balance}

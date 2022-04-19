@@ -3,10 +3,10 @@ import '../styles/Nav.css';
 import { Link } from 'react-router-dom';
 import logo from '../assets/honeycomb-logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faWallet, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 
-const Nav = ({ address, connect, display }) => {
+const Nav = ({ address, connect, display, network }) => {
 
   return (
     <div className="nav">
@@ -32,6 +32,12 @@ const Nav = ({ address, connect, display }) => {
         </div>
       </div>
       <div className="buttons">
+        {network !== '0x539' && 
+        <div className={'network-display'} title="Switch to Ganache network">
+          <p>
+            <FontAwesomeIcon icon={faTriangleExclamation} className="network-icon" /> Network
+          </p>
+        </div>}
         <button
           onClick={(e) => {
             e.preventDefault();

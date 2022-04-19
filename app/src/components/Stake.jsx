@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 
-const Stake = ({ network, address, connect, stake, approve, epoch2, balance, allowance, token, setDisplay }) => {
+const Stake = ({ network, address, symbol, connect, stake, approve, epoch2, balance, allowance, token, setDisplay }) => {
   const [actions] = useState(['Stake', 'Approve ATRAC', 'Insufficient ATRAC', 'Connect Wallet']);
   const [action, setAction] = useState(actions[0]);
   const [amount, setAmount] = useState('');
@@ -21,11 +21,11 @@ const Stake = ({ network, address, connect, stake, approve, epoch2, balance, all
       setAction(() => actions[3]);
       setDisableButton(() => false);
     }
-    else if (amount > balance) {
+    else if (Number(amount) > balance) {
       setAction(() => actions[2]);
       setDisableButton(() => true);
     }
-    else if (amount > allowance) {
+    else if (Number(amount) > allowance && epoch2 > new Date().getTime()) {
       setAction(() => actions[1]);
       setDisableButton(() => false);
     }
@@ -64,7 +64,7 @@ const Stake = ({ network, address, connect, stake, approve, epoch2, balance, all
           <div className="divider" />
           <div className="token">
             <p className="name">
-              ATRAC
+              {symbol}
             </p>
             <abbr title="copy address" onClick={() => navigator.clipboard.writeText(token)}>
               <FontAwesomeIcon icon={faCopy} className="copy-icon" />
@@ -75,6 +75,7 @@ const Stake = ({ network, address, connect, stake, approve, epoch2, balance, all
       <Timer 
         targetTimeMs={epoch2}
         size={2}
+        info={'Countdown till end of staking epoch.\nTime may vary slightly due to block \ntimestamp being set by different miners'}
       />
       <div className="stake-buttons">
         <button

@@ -18,3 +18,12 @@
 .seperator {
   margin: 0 .25rem;
 }
+
+.timer-title {
+  position: absolute;
+  left: 50%;
+  top: .2rem;
+  transform: translateX(-50%);
+  font-size: .7rem;
+  color: #432929c9;
+}

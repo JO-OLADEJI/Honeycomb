@@ -59,10 +59,35 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.network-display {
+  padding: .5rem 1rem .5rem 1.8rem;
+  font-size: .8rem;
+  font-weight: 600;
+  position: relative;
+  background-color: #d45f5f;
+  border: 1px solid black;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.network-icon {
+  color: white;
+  position: absolute;
+  left: 0;
+  bottom: -.4rem;
+  transform: translate(-50%, 0);
+  font-size: 1.5rem;
+  border: 2px solid black;
+  background-color: #d45f5f;
+  border-radius: 50%;
+  padding: .5rem .52rem;
 }
 
 .buttons button {
-  font-family: 'Fredoka', sans-serif;
+  font-family: inherit;
   padding: .6rem 1.2rem;
   font-size: 1rem;
   font-weight: 600;
@@ -73,6 +98,7 @@
   border-top: 1px solid #432929;
   border-bottom: 4px solid #432929;
   cursor: pointer;
+  margin-left: 1rem;
 }
 
 .wallet-icon {
