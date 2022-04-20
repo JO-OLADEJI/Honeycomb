@@ -71,6 +71,7 @@
   border: 1px solid black;
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
+  cursor: pointer;
 }
 
 .network-icon {

@@ -27,6 +27,7 @@ const App = () => {
   const [display, setDisplay] = useState('stake');
   const [symbol, setSymbol] = useState('');
   const [tokenDecimals, setTokenDecimals] = useState(18);
+  const APP_CHAIN = `rinkeby`;
 
   const calculateShare = (contribution, total) => {
     return contribution === 0 || total === 0 ? 0 : (contribution / total) * 100;
@@ -192,6 +193,7 @@ const App = () => {
         address={address}
         display={display}
         network={network}
+        APP_CHAIN={APP_CHAIN}
         connect={handleConnectWallet}
       />
 
