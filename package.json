@@ -1,19 +1,19 @@
 {
   "name": "honeycomb",
   "version": "1.0.0",
-  "description": "Pool for users to stake an ERC-20 token and receive a share of the total pool reward after (n) epochs",
+  "description": "Pool for users to stake an ERC-20 token and receive a share of the total pool reward after (n) number of epochs",
   "main": "index.js",
   "scripts": {
     "test": "npx hardhat test",
     "compile": "npx hardhat compile",
-    "deploy": "npx hardhat run scripts/deploy.js --network ganache"
+    "deploy": "npx hardhat run scripts/deploy.js --network rinkeby"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Joshua-Oladeji/Honeycomb.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Joshua Oladeji",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Joshua-Oladeji/Honeycomb/issues"

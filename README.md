@@ -1,9 +1,9 @@
-# Honeycomb
-Pool for users to stake an ERC-20 token and receive a share of the total reward pool in due time
+# Honeycomb 🍯
+Pool for users to stake an ERC-20 token and receive a share of the total reward pool after (n) number of epochs
 <br />
 <br />
 
-### Setup
+### Setup 💻
 After cloning repository,
 
 - Install all dependencies by running 
@@ -16,7 +16,7 @@ npm install
 npx hardhat compile
 ```
 
-- Assign the private key of deployer address to the `DEPLOYER` variable in `.env.example` file
+- Assign the private key of deployer address to the `DEPLOYER` variable and your rinkeby node url to `RINKEBY_NODE` in `.env.example` file
 
 - Rename `.env.example` to `.env`
 
@@ -24,11 +24,11 @@ npx hardhat compile
 ```
 npx hardhat run scripts/deploy.js --network rinkeby
 ```
-Note that the contract is deployed using an epoch of 10 minutes. To change this, modify the T variable in `scripts/deploy.js` file before deploying
+**Note** that the contract is deployed using an epoch of 15 minutes. To change this, modify the `T` variable in `scripts/deploy.js` file before deploying
 
-- Copy the address of the BEE token and paste it in `app/src/utils/erc20.json` file, as the value of the `address` key
+- Copy the address of the BEE token from the console and paste it in `app/src/utils/erc20.json` file, as the value of the `address` key
 
-- Copy the address of the HONEYCOMB and paste it in `app/src/utils/honeycomb.json` file, as the value of the `address` key
+- Copy the address of the HONEYCOMB also from the console and paste it in `app/src/utils/honeycomb.json` file, as the value of the `address` key
 
 - Run the dApp using 
 ```
@@ -54,7 +54,16 @@ npx hardhat compile
 
 - Rename `.env.example` to `.env`
 
+- Change the `defaultNetwork` value to `"ganache"` in the `hardhat.config.js` file.
+
 - Run tests using
 ```
 npx hardhat test
 ```
+<br />
+
+### Technologies 🛠
+- [Node js](https://nodejs.org/en/)
+- [Hardhat](https://hardhat.org/)
+- [Moralis](https://moralis.io/)
+- [React js](https://reactjs.org/)

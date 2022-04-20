@@ -29,13 +29,18 @@ module.exports = {
     }
   },
 
-  'defaultNetwork': 'ganache',
+  'defaultNetwork': 'rinkeby',
 
   'networks': {
     'hardhat': {},
     'ganache': {
       url: 'http://127.0.0.1:7545',
       accounts: [`0x${process.env.DEPLOYER}`, `0x${process.env.SIGNER_1}`, `0x${process.env.SIGNER_2}`, `0x${process.env.SIGNER_3}`]
+    },
+    'rinkeby': {
+      url: process.env.RINKEBY_NODE,
+      accounts: [`0x${process.env.DEPLOYER}`],
+      chainId: 4
     }
   },
 

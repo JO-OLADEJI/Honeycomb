@@ -8,7 +8,6 @@ const { ethers } = require('hardhat');
 const deploy = async (timeInterval) => {
   try {
     const [deployer] = await ethers.getSigners();
-    // const ERC20Token = process.env.ERC20_TOKEN;
 
     // deploy ERC-20 token
     const bee = await ethers.getContractFactory('Bee');
@@ -24,7 +23,7 @@ const deploy = async (timeInterval) => {
     const reward = ethers.utils.parseEther('1000');
     await Bee.connect(deployer).approve(Honeycomb.address, reward);
     await Honeycomb.connect(deployer).lockReward(reward);
-    console.log({ 'method': `Locked-in ${ethers.utils.formatEther(await Honeycomb.rewardRemaining())} $BEE for rewards` });
+    console.log({ 'method': `Locked-in ${ethers.utils.formatEther(reward)} $BEE for rewards` });
 
     process.exit(0);
   }
@@ -35,5 +34,5 @@ const deploy = async (timeInterval) => {
 }
 
 
-const T = 10 * 60; // 10 minutes
+const T = 15 * 60; // 15 minutes
 deploy(T);
