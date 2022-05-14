@@ -1,8 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/Timer.css';
+import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { tick } from '../utils/countdown.js';
+
+const TimerWrapper = styled.div`
+  background-color: transparent;
+`;
+
+const TimerTitle = styled.h6`
+  position: absolute;
+  left: 50%;
+  top: .2rem;
+  transform: translateX(-50%);
+  font-size: .7rem;
+  color: #432929c9;
+`;
+
+const CountDown = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  font-size: ${({ size }) => size + 'rem' || '2rem'};
+  font-weight: bold;
+`;
+
+const Time = styled.h1`
+  color: #432929;
+`;
+
+const Seperator = styled(Time)`
+  margin: 0 .25rem;
+  color: #432929dc;
+`;
+
+const IconWrapper = styled.div`
+  font-size: .8rem;
+  cursor: pointer;
+  color: #432929a1;
+  padding-left: .5rem;
+  display: inline-block;
+  width: fit-content;
+`;
+
 
 const Timer = ({ targetTimeMs, size, info, title }) => {
   const [remainingTime, setRemainingTime] = useState({ 'seconds': 0, 'minutes': 0, 'hours': 0, 'days': 0 });
@@ -17,26 +57,38 @@ const Timer = ({ targetTimeMs, size, info, title }) => {
 
 
   return (
-    <div className="timer">
-      <div className="count-down" style={{ 'fontSize': `${size}rem` }}>
+    <TimerWrapper>
+      <CountDown size={size}>
         {remainingTime['days'] > 0 ?
-        <h1 className="days">{remainingTime['days'] + 1} days</h1>
+        <Time>
+          {remainingTime['days'] + 1} days
+        </Time>
         :
         <>
-          <h1 className="hours">{remainingTime['hours'] < 0 ? '00' : String(remainingTime['hours']).padStart(2, '0')}</h1>
-          <h1 className="seperator">:</h1>
-          <h1 className="minutes">{remainingTime['minutes'] < 0 ? '00' : String(remainingTime['minutes']).padStart(2, '0')}</h1>
-          <h1 className="seperator">:</h1>
-          <h1 className="seconds">{remainingTime['seconds'] < 0 ? '00' : String(remainingTime['seconds']).padStart(2, '0')}</h1>
+          <Time>
+            {remainingTime['hours'] < 0 ? '00' : String(remainingTime['hours']).padStart(2, '0')}
+          </Time>
+          <Seperator>:</Seperator>
+          <Time>
+            {remainingTime['minutes'] < 0 ? '00' : String(remainingTime['minutes']).padStart(2, '0')}
+          </Time>
+          <Seperator>:</Seperator>
+          <Time>
+            {remainingTime['seconds'] < 0 ? '00' : String(remainingTime['seconds']).padStart(2, '0')}
+          </Time>
         </>}
-        <FontAwesomeIcon 
-          icon={faCircleInfo} 
-          className="info-icon"
-          title={info}
-        />
-        <h6 className="timer-title">{title}</h6>
-      </div>
-    </div>
+
+        <IconWrapper>
+          <FontAwesomeIcon
+            icon={faCircleInfo}
+            title={info}
+          />
+        </IconWrapper>
+        <TimerTitle>
+          {title}
+        </TimerTitle>
+      </CountDown>
+    </TimerWrapper>
   );
 }
  
