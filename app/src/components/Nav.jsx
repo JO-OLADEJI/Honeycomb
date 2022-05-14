@@ -8,8 +8,6 @@ import { requestSwitchNetwork, networks } from '../utils/connect-wallet.js';
 
 
 const Nav = ({ address, connect, display, network, APP_CHAIN }) => {
-
-
   return (
     <div className="nav">
       <div className="logo">

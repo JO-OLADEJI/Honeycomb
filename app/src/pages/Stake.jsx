@@ -1,11 +1,15 @@
+// modules
 import React, { useEffect, useState } from 'react';
-import '../styles/Stake.css';
-import Timer from './Timer.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import '../styles/Stake.css';
+
+// components
+import Timer from '../components/Timer';
+import { Header3 } from './Dashboard';
 
 
-const Stake = ({ network, address, symbol, connect, stake, approve, epoch2, balance, allowance, token, setDisplay }) => {
+const Stake = ({ address, symbol, connect, stake, approve, epoch2, balance, allowance, token, setDisplay }) => {
   const [actions] = useState(['Stake', 'Approve ATRAC', 'Insufficient ATRAC', 'Connect Wallet']);
   const [action, setAction] = useState(actions[0]);
   const [amount, setAmount] = useState('');
@@ -41,7 +45,9 @@ const Stake = ({ network, address, symbol, connect, stake, approve, epoch2, bala
 
   return (
     <div className="stake">
-      <h3>Stake</h3>
+      <Header3>
+        Stake
+      </Header3>
       <div className="form">
         <div className="pseudo-info">
           <p>Amount</p>

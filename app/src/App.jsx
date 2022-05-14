@@ -1,14 +1,23 @@
+// modules
 import React, { useEffect, useState } from 'react';
-import './styles/App.css';
-import Nav from './components/Nav.jsx';
-import Home from './components/Home.jsx';
-import Stake from './components/Stake.jsx';
-import Dashboard from './components/Dashboard.jsx';
 import { Routes, Route } from 'react-router-dom';
 import { ethers } from 'ethers';
+import './styles/App.css';
+
+// components
+import Nav from './components/Nav';
+
+// pages
+import Home from './pages/Home';
+import Stake from './pages/Stake';
+import { Dashboard } from './pages/Dashboard';
+
+// utils
 import { connectWallet, refreshConnectWallet, getChainId } from './utils/connect-wallet.js';
-import erc20 from './utils/erc20.json';
-import contract from './utils/honeycomb.json';
+
+// constants
+import erc20 from './constants/erc20.json';
+import contract from './constants/honeycomb.json';
 
 
 const App = () => {
@@ -223,7 +232,7 @@ const App = () => {
             <Dashboard
               stake={stake}
               share={share}
-              epoch3={epoch3}
+              epochs={[epoch3, epoch4, epoch5]}
               epoch4={epoch4}
               epoch5={epoch5}
               symbol={symbol}
