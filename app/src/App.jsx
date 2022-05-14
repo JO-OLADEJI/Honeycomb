@@ -1,6 +1,7 @@
 // modules
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import styled from 'styled-components';
 import { ethers } from 'ethers';
 import './styles/App.css';
 
@@ -10,7 +11,7 @@ import Nav from './components/Nav';
 // pages
 import Home from './pages/Home';
 import Stake from './pages/Stake';
-import { Dashboard } from './pages/Dashboard';
+import { Dashboard, InfoTitle } from './pages/Dashboard';
 
 // utils
 import { connectWallet, refreshConnectWallet, getChainId } from './utils/connect-wallet.js';
@@ -18,6 +19,24 @@ import { connectWallet, refreshConnectWallet, getChainId } from './utils/connect
 // constants
 import erc20 from './constants/erc20.json';
 import contract from './constants/honeycomb.json';
+
+
+const AppWrapper = styled.div`
+  text-align: center;
+  font-family: 'Fredoka', sans-serif;
+`;
+
+const ClickableText = styled(InfoTitle)`
+  margin-top: .8rem;
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 600;
+  transition: color .3s ease-out;
+  width: fit-content;
+  &:hover {
+    color: #C68728;
+  }
+`;
 
 
 const App = () => {
@@ -197,7 +216,7 @@ const App = () => {
 
 
   return (
-    <div className="App">
+    <AppWrapper>
       <Nav 
         address={address}
         display={display}
@@ -247,18 +266,17 @@ const App = () => {
           }
         />
       </Routes>
-      {symbol.length > 0 ?
-        <p 
+      {symbol &&
+        <ClickableText
           className="add-to-wallet"
           onClick={(e) => {
             e.preventDefault();
             addTokenToMetamask();
           }}>
           Add {symbol} to Metamask
-        </p>
-        : 
-      null}
-    </div>
+        </ClickableText>
+      }
+    </AppWrapper>
   );
 }
 

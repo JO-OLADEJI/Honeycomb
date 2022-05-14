@@ -3,22 +3,3 @@
   margin: 0;
   box-sizing: border-box;
 }
-
-.App {
-  text-align: center;
-}
-
-.add-to-wallet {
-  margin-top: .8rem;
-  font-family: 'Fredoka', sans-serif;
-  font-weight: 500;
-  cursor: pointer;
-  font-size: .85rem;
-  color: #432929;
-  font-weight: 600;
-  transition: color .3s ease-out;
-}
-
-.add-to-wallet:hover {
-  color: #C68728;
-}

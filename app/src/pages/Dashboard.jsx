@@ -66,7 +66,7 @@ const InfoText = styled.p`
   display: inline-block;
 `;
 
-const InfoTitle = styled(InfoText)`
+export const InfoTitle = styled(InfoText)`
   color: #432929de;
   font-size: .9rem;
   width: 8rem;
