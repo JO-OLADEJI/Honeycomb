@@ -10,7 +10,7 @@ import { Header3 } from './Dashboard';
 
 
 const Stake = ({ address, symbol, connect, stake, approve, epoch2, balance, allowance, token, setDisplay }) => {
-  const [actions] = useState(['Stake', 'Approve ATRAC', 'Insufficient ATRAC', 'Connect Wallet']);
+  const [actions] = useState(['Stake', 'Approve BEE', 'Insufficient BEE', 'Connect Wallet']);
   const [action, setAction] = useState(actions[0]);
   const [amount, setAmount] = useState('');
   const [disableButton, setDisableButton] = useState(false);

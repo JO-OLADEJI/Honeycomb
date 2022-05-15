@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 export const Button = styled.button`
   background-color: #C68728;
   color: #432929;
-  width: 21.8rem;
+  width: 20rem;
   padding: 1.2rem 0;
   border-radius: 1rem;
   font-family: 'Fredoka', sans-serif;
