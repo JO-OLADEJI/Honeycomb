@@ -7,7 +7,7 @@ import { faWallet, faTriangleExclamation } from '@fortawesome/free-solid-svg-ico
 import { requestSwitchNetwork, networks } from '../utils/connect-wallet.js';
 
 // components
-import { Button } from './Button';
+import { MiniButton } from './Button';
 
 // utils
 import { shortenAddress } from '../utils/format-text';
@@ -102,17 +102,6 @@ const NetworkErrorIcon = styled.span`
   background-color: #d45f5f;
   border-radius: 50%;
   padding: .5rem .52rem;
-`;
-
-const MiniButton = styled(Button)`
-  padding: .6rem 1.2rem;
-  font-size: 1rem;
-  border-radius: .7rem;
-  border: 2px solid #432929;
-  border-top: 1px solid #432929;
-  border-bottom: 4px solid #432929;
-  margin-left: 1rem;
-  width: fit-content;
 `;
 
 const MiniButtonIcon = styled.span`
