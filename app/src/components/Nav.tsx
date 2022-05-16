@@ -4,17 +4,22 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { requestSwitchNetwork, networks } from '../utils/connect-wallet.js';
 
 // components
 import { MiniButton } from './Button';
 
+// constants
+import { networks, SUPPORTED_NETWORKS } from '../constants/networks';
+
 // utils
 import { shortenAddress } from '../utils/format-text';
+import { requestSwitchNetwork } from '../utils/connect-wallet.js';
+
+// types
+import { Tabs } from '../types/tabs';
 
 // assets
-import logo from '../assets/honeycomb-logo.png';
-
+const logo = require('../assets/honeycomb-logo.png');
 
 const NavWrapper = styled.div`
   display: grid;
@@ -66,7 +71,7 @@ const TabLink = styled(Link)`
   text-decoration: none;
   font-weight: 600;
   color: #432929;
-  ${({ selected }) => selected && css`
+  ${({ selected }: { selected?: boolean }) => selected && css`
     background-color: #C6A05D;
     border-radius: .8rem;
   `}
@@ -110,7 +115,23 @@ const MiniButtonIcon = styled.span`
 `;
 
 
-const Nav = ({ address, connect, display, network, APP_CHAIN }) => {
+interface NavProps {
+  address: string,
+  connect: () => Promise<void>,
+  network: string,
+  display: Tabs,
+  APP_CHAIN: SUPPORTED_NETWORKS
+}
+
+const Nav = (
+  {
+    address,
+    connect,
+    display,
+    network,
+    APP_CHAIN
+  }: NavProps
+) => {
   return (
     <NavWrapper>
       <LogoWrapper>
@@ -137,7 +158,7 @@ const Nav = ({ address, connect, display, network, APP_CHAIN }) => {
         </TabsOutline>
       </TabsWrapper>
       <ButtonsWrapper>
-        {network !== networks[APP_CHAIN]['chainId'] && 
+        {network !== networks[APP_CHAIN]['chainId'] &&
         <NetworkErrorButton
           title="Switch to Rinkeby Testnet"
           onClick={() => requestSwitchNetwork(APP_CHAIN)}>
@@ -149,7 +170,7 @@ const Nav = ({ address, connect, display, network, APP_CHAIN }) => {
           </p>
         </NetworkErrorButton>}
         <MiniButton
-          onClick={(e) => {
+          onClick={(e: any) => {
             e.preventDefault();
             if (address === null) connect();
           }}>

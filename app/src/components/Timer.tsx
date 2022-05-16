@@ -1,8 +1,15 @@
+// modules
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import { tick } from '../utils/countdown.js';
+
+// utils
+import { ticker } from '../utils/countdown.js';
+
+// types
+import { Countdown } from '../types/countdown';
+
 
 const TimerWrapper = styled.div`
   background-color: transparent;
@@ -21,7 +28,7 @@ const CountDown = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  font-size: ${({ size }) => size + 'rem' || '2rem'};
+  font-size: ${({ size }: { size: number }) => size + 'rem' || '2rem'};
   font-weight: bold;
 `;
 
@@ -44,12 +51,31 @@ const IconWrapper = styled.div`
 `;
 
 
-const Timer = ({ targetTimeMs, size, info, title }) => {
-  const [remainingTime, setRemainingTime] = useState({ 'seconds': 0, 'minutes': 0, 'hours': 0, 'days': 0 });
+interface TimerProps {
+  targetTimeMs: number,
+  size: number,
+  info: string,
+  title?: string
+}
+
+const Timer = (
+  {
+    targetTimeMs,
+    size,
+    info,
+    title
+  }: TimerProps
+) => {
+  const [remainingTime, setRemainingTime] = useState<Countdown>({
+    'seconds': 0,
+    'minutes': 0,
+    'hours': 0,
+    'days': 0
+  });
 
   useEffect(() => {
     const repeat = setInterval(() => {
-      setRemainingTime(() => tick(targetTimeMs));
+      setRemainingTime(() => ticker(targetTimeMs));
     }, 1 * 1000);
 
     return () => clearInterval(repeat);
@@ -91,5 +117,5 @@ const Timer = ({ targetTimeMs, size, info, title }) => {
     </TimerWrapper>
   );
 }
- 
+
 export default Timer;

@@ -1,6 +1,7 @@
 // modules
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+// import styled from 'styled-components';
 import styled from 'styled-components';
 import { ethers } from 'ethers';
 import './styles/App.css';
@@ -16,9 +17,13 @@ import { Dashboard, InfoTitle } from './pages/Dashboard';
 // utils
 import { connectWallet, refreshConnectWallet, getChainId } from './utils/connect-wallet.js';
 
+// types
+import { Tabs } from './types/tabs'
+
 // constants
 import erc20 from './constants/erc20.json';
 import contract from './constants/honeycomb.json';
+import { SUPPORTED_NETWORKS } from './constants/networks';
 
 
 const AppWrapper = styled.div`
@@ -40,8 +45,8 @@ const ClickableText = styled(InfoTitle)`
 
 
 const App = () => {
-  const [address, setAddress] = useState(null);
-  const [network, setNetwork] = useState(null);
+  const [address, setAddress] = useState('');
+  const [network, setNetwork] = useState<string>('');
   const [liquidity, setLiquidity] = useState(0);
   const [stake, setStake] = useState(0);
   const [share, setShare] = useState(0);
@@ -52,13 +57,16 @@ const App = () => {
   const [epoch3, setEpoch3] = useState(0);
   const [epoch4, setEpoch4] = useState(0);
   const [epoch5, setEpoch5] = useState(0);
-  const [display, setDisplay] = useState('stake');
+  const [display, setDisplay] = useState<Tabs>('stake');
   const [symbol, setSymbol] = useState('');
   const [tokenDecimals, setTokenDecimals] = useState(18);
-  const APP_CHAIN = `rinkeby`;
+  const APP_CHAIN: SUPPORTED_NETWORKS = SUPPORTED_NETWORKS.RINKEBY;
 
-  const calculateShare = (contribution, total) => {
-    return contribution === 0 || total === 0 ? 0 : (contribution / total) * 100;
+  const calculateShare = (
+    contribution: number,
+    total: number
+  ): number => {
+    return (contribution === 0 || total === 0) ? 0 : (contribution / total) * 100;
   }
 
   const handleConnectWallet = async () => {
@@ -217,7 +225,7 @@ const App = () => {
 
   return (
     <AppWrapper>
-      <Nav 
+      <Nav
         address={address}
         display={display}
         network={network}

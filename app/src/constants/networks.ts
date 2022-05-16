@@ -1,6 +1,11 @@
 import { toHexString } from '../utils/format-text';
-import { SUPPORTED_NETWORKS, EIP3085 } from '../types/networks';
+import { EIP3085 } from '../types/networks';
 
+
+export enum SUPPORTED_NETWORKS {
+  RINKEBY = 4,
+  GANACHE =  1337
+}
 
 export const networks: { [network in SUPPORTED_NETWORKS]: EIP3085 } = {
   

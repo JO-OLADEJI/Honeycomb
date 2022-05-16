@@ -11,8 +11,3 @@ export interface EIP3085 {
   rpcUrls?: string[];
 }
 
-export enum SUPPORTED_NETWORKS {
-  RINKEBY = 4,
-  GANACHE =  1337
-}
-
