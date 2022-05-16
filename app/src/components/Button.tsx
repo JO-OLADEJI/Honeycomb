@@ -14,7 +14,7 @@ export const Button = styled.button`
   font-size: 1.3rem;
   font-weight: 600;
   cursor: pointer;
-  ${({ disabled }) => disabled && css`
+  ${({ disabled }: { disabled?: boolean }) => disabled && css`
     opacity: .7;
     cursor: not-allowed;
   `}

@@ -5,9 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 // components
-import Timer from '../components/Timer';
+import Timer from 'components/Timer';
 import { Header3 } from './Dashboard';
-import { Button, PuckButton } from '../components/Button';
+import { Button, PuckButton } from 'components/Button';
+
+// types
+import { Tabs } from 'types/tabs';
 
 
 const StakeWrapper = styled.div`
@@ -110,8 +113,38 @@ const Divider = styled.div`
 `;
 
 
-const Stake = ({ address, symbol, connect, stake, approve, epoch2, balance, allowance, token, setDisplay }) => {
-  const [actions] = useState(['Stake', `Approve ${symbol}`, `Insufficient ${symbol}`, 'Connect Wallet']);
+interface StakeProps {
+  address: string;
+  symbol: string;
+  connect: () => Promise<void>;
+  stake: (amount: string) => Promise<void>;
+  approve: (amount: string) => Promise<void>;
+  epoch2: number;
+  balance: number;
+  allowance: number;
+  token: string;
+  setDisplay: React.Dispatch<React.SetStateAction<Tabs>>
+}
+
+const Stake = (
+  { address,
+    symbol,
+    connect,
+    stake,
+    approve,
+    epoch2,
+    balance,
+    allowance,
+    token,
+    setDisplay
+  }: StakeProps
+) => {
+  const [actions] = useState([
+    'Stake',
+    `Approve ${symbol}`,
+    `Insufficient ${symbol}`,
+    'Connect Wallet'
+  ]);
   const [action, setAction] = useState(actions[0]);
   const [amount, setAmount] = useState('');
   const [disableButton, setDisableButton] = useState(false);
@@ -122,7 +155,7 @@ const Stake = ({ address, symbol, connect, stake, approve, epoch2, balance, allo
   }, [setDisplay]);
 
   useEffect(() => {
-    if (address === null) {
+    if (!address) {
       setAction(() => actions[3]);
       setDisableButton(() => false);
     }
@@ -164,7 +197,7 @@ const Stake = ({ address, symbol, connect, stake, approve, epoch2, balance, allo
           <PuckButton
             onClick={(e) => {
               e.preventDefault();
-              setAmount(() => balance);
+              setAmount(() => balance.toString());
             }}>
             MAX
           </PuckButton>
