@@ -9,17 +9,18 @@ import { faWallet, faTriangleExclamation } from '@fortawesome/free-solid-svg-ico
 import { MiniButton } from './Button';
 
 // constants
-import { networks, SUPPORTED_NETWORKS } from '../constants/networks';
+import { networks, SUPPORTED_NETWORKS } from 'constants/networks';
 
 // utils
-import { shortenAddress } from '../utils/format-text';
-import { requestSwitchNetwork } from '../utils/connect-wallet.js';
+import { shortenAddress } from 'utils/format-text';
+import { requestSwitchNetwork } from 'utils/wallet.js';
 
 // types
-import { Tabs } from '../types/tabs';
+import { Tabs } from 'types/tabs';
 
 // assets
-const logo = require('../assets/honeycomb-logo.png');
+const logo = require('assets/honeycomb-logo.png');
+
 
 const NavWrapper = styled.div`
   display: grid;

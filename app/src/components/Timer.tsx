@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 // utils
-import { ticker } from '../utils/countdown.js';
+import { ticker } from 'utils/countdown.js';
 
 // types
-import { Countdown } from '../types/countdown';
+import { Countdown } from 'types/countdown';
 
 
 const TimerWrapper = styled.div`
