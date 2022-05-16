@@ -3,11 +3,14 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 // components
-import Timer from '../components/Timer';
-import { Button } from '../components/Button';
+import Timer from 'components/Timer';
+import { Button } from 'components/Button';
 
 // constants
-import { timerInfo } from '../constants/dashboardTimer';
+import { timerInfo } from 'constants/dashboardTimer';
+
+// types
+import { Tabs } from 'types/tabs';
 
 
 const Wrapper = styled.div`
@@ -80,8 +83,32 @@ const ButtonPosition = styled.div`
 `;
 
 
+interface DashboardProps {
+  address: string;
+  connect: () => Promise<void>;
+  harvest: () => Promise<void>;
+  epochs: number[];
+  liquidity: number;
+  stake: number;
+  share: number;
+  rewardRemaining: number;
+  setDisplay: React.Dispatch<React.SetStateAction<Tabs>>;
+  symbol: string;
+}
 
-export const Dashboard = ({ address, connect, harvest, epochs, liquidity, stake, share, rewardRemaining, setDisplay, symbol }) => {
+export const Dashboard = (
+  { address,
+    connect,
+    harvest,
+    epochs,
+    liquidity,
+    stake,
+    share,
+    rewardRemaining,
+    setDisplay,
+    symbol
+  }: DashboardProps
+) => {
   const [actions] = useState(['Harvest', 'Connect Wallet']);
   const [action, setAction] = useState(actions[0]);
   const [disableButton, setDisableButton] = useState(false);
@@ -92,7 +119,7 @@ export const Dashboard = ({ address, connect, harvest, epochs, liquidity, stake,
   }, [setDisplay]);
 
   useEffect(() => {
-    if (address === null) {
+    if (!address) {
       setAction(() => actions[1]);
       setDisableButton(() => false);
     }
@@ -113,7 +140,7 @@ export const Dashboard = ({ address, connect, harvest, epochs, liquidity, stake,
           {epochs.map((epoch, index) => (
             <TimerWrapper key={index}>
               <Timer
-                targetTimeMs={epoch[index]}
+                targetTimeMs={epoch}
                 size={timerInfo[index]['size']}
                 info={timerInfo[index]['info']}
                 title={timerInfo[index]['title']}

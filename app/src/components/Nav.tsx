@@ -13,7 +13,7 @@ import { networks, SUPPORTED_NETWORKS } from 'constants/networks';
 
 // utils
 import { shortenAddress } from 'utils/format-text';
-import { requestSwitchNetwork } from 'utils/wallet.js';
+import { requestSwitchNetwork } from 'utils/wallet';
 
 // types
 import { Tabs } from 'types/tabs';
@@ -176,7 +176,7 @@ const Nav = (
             if (address === null) connect();
           }}>
           <p>
-            {address === null ?
+            {!address ?
             <>
               connect
               <MiniButtonIcon>

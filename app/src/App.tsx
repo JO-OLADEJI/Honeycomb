@@ -14,7 +14,12 @@ import Stake from 'pages/Stake';
 import { Dashboard, InfoTitle } from 'pages/Dashboard';
 
 // utils
-import { connectWallet, refreshConnectWallet, getChainId } from 'utils/wallet.js';
+import {
+  connectWallet,
+  refreshConnectWallet,
+  getChainId,
+  requestAddERC20Token
+} from 'utils/wallet';
 
 // types
 import { Tabs } from 'types/tabs'
@@ -45,7 +50,7 @@ const ClickableText = styled(InfoTitle)`
 
 const App = () => {
   const [address, setAddress] = useState('');
-  const [network, setNetwork] = useState<string>('');
+  const [network, setNetwork] = useState('');
   const [liquidity, setLiquidity] = useState(0);
   const [stake, setStake] = useState(0);
   const [share, setShare] = useState(0);
@@ -129,31 +134,11 @@ const App = () => {
     }
   }
 
-  const addTokenToMetamask = async (): Promise<void> => {
-    const { ethereum } = window as any;
-    if (!ethereum) return;
-
-    try {
-      const options = {
-        'address': erc20['address'],
-        'symbol': symbol,
-        'decimals': tokenDecimals,
-        'image': ''
-      }
-      const success = await ethereum.request({ 
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'ERC20',
-          options
-        }
-      });
-      success ? console.log(`${symbol} added to Metamask✔`) : console.error(`Error adding ${symbol} to Metamask❌`);
-    }
-    catch (err) {
-      if (err instanceof Error)
-        console.error(err.message);
-    }
-    return;
+  const addTokenHandler = async (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
+  ): Promise<void> => {
+    e.preventDefault();
+    requestAddERC20Token(erc20['address'], symbol, tokenDecimals);
   }
 
   useEffect(() => {
@@ -280,10 +265,7 @@ const App = () => {
       {symbol &&
         <ClickableText
           className="add-to-wallet"
-          onClick={(e) => {
-            e.preventDefault();
-            addTokenToMetamask();
-          }}>
+          onClick={(e) => addTokenHandler(e)}>
           Add {symbol} to Metamask
         </ClickableText>
       }

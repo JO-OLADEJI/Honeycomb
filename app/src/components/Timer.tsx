@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 // utils
-import { ticker } from 'utils/countdown.js';
+import { ticker } from 'utils/countdown';
 
 // types
 import { Countdown } from 'types/countdown';
